@@ -32,8 +32,10 @@ def activatebot():
     data = request.form['message']
     # message = start_bot(data.get('message'))
     message = start_bot(data)
+    status = True
+    msg = "Retrived successfully."
 
-    return jsonify({'message': message})
+    return jsonify({'status': status, 'body': message, 'msg':msg})
 
 
 
