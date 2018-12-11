@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Bot</title>
+	<link rel="stylesheet" href="E:\touristchatbot\nmt-chatbot\templates\btstrap.css">
+	<style type="text/css">
+		.chatBox {
+			margin: 50px;
+			height: 500px;
+			border: 1px solid black;
+			overflow: scroll;
+		}
+	</style>
+	<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body class="container">
+	<div id="root">
+		<div class="chatBox">
+		<p v-for="msg in messages">
+		 {% raw %}{{msg}}{% endraw %}
+		</p>
+	</div>
+	<form method="POST" action="/get_bot" class="form-horizontal" v-on:submit.prevent="get_bot">
+			<input type= "text" v-model="message" class="form-control" />
+			<button type="submit" style="display: none">Submit</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var app = new Vue({
+		  el: '#root',
+		  data: {
+		    messages: [],
+		    message : ''
+		  },
+
+		  methods : {
+		  	get_bot() {
+		  		var that = this;
+		  		this.messages.push(this.message);
+		  		axios.post('get_bot', {
+		  		    message : this.message
+		  		  })
+		  		  .then(function (response) {
+		  		  	var data = response.data;
+		  		    that.messages.push(data.message);
+		  		  })
+		  		  .catch(function (error) {
+		  		    console.log(error);
+		  		  });
+
+		  		this.message = "";
+		  	}
+		  }
+		})
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+{"intents": 
+	[
+		{
+			"intent": "membership_procedure", 
+			"query": ["How can i become member","Tell me about the procedureto become member","How do i register as a member","register as a member","register for member"," what are the procedure for becoming a member","how to be member", "How can i register for the member"], 
+			"response": ["To become the member you need to fill Member Registration Form. Please visit https://nrnusa.org/members/member-registration-form/ for menber registration."]}, {"intent": "benefits_of_member", "query": ["advantages of member", "what are the benefits of becoming member", "benifits of member", "benefits of member", "what benefits do i get after becoming member", "tell me the advantages of becoming a member", "member benefits", "benifits member", "how will i get benefited after becoming member"], "response": ["Please visit https://nrnusa.org/member-benefits/ to know more about member benefits"]
+		},
+		
+		{
+			"intent": "contact",
+			"query": ["how can i contact NRN", "give me the contact details", "provide me with the contact details of NRN", "could you provide me the contact details", "contact details", "can i know about contact details", "contact,give me the contact details", "contact details please"], 
+			"response": ["You can contact us on 917-565-8242 or email us on info@nrnusa.org."]
+		}, 
+
+		{
+			"intent": "annual_program", 
+			"query": ["what is the purpose of annual program", "tell me about the annual program", "when will be the annual program", "give me the details of annual program", "attractions of annual program", "tell me about the attractions of the annual program", "benefits of annual program", "what are the attractions and benefits of annual program", "what is the center of attraction of annual program", "anual program", "annual programme", "annual program"],
+			"response": ["Annual Program is held every year by NRNA US. TO know in details please visit https://nrnusa.org/annual-program/"]
+		}, 
+
+		{
+			"intent": "member_ship_policy",
+			"query": ["tell me about membership policy", "membership policy", "what is membership policy here", "membership policy", "let me know about the membership policy", "information about the membership policy", "policy about membership", "mebership policy"], 
+			"response": ["Please read all the membership policy at https://nrnusa.org/media/1169/nrnausa-membership-policy-rev0-final.pdf"]
+		},
+
+		{
+			"intent": "greeting",
+		 	"query": ["Hi", "hi", "hello", "hola", "good morning,good evening", "hi there", "hey", "Hey", "Namaste"], 
+		 	"response": ["Hi, how can i help you today?", "Namaste, how can i help?"]
+		},
+
+		{
+			"intent": "goodbye",
+		 	"query": ["goodbye", "bye", "bye bye", "bie", "bie bie", "byebye", "have a good day", "farewell", "tata", "see you", "see you again", "talk to you later"],
+		 	"response": ["Goodbye,Nice meeting you. Please keep on visiting."]
+		},
+
+		{
+			"intent": "thank",
+			"query": ["thank you", "thanks", "thankyou", "you helped me", "Thank you", "you were really helpful", "really helpful bot thank you"],
+			"response": ["You are welcome, Always happy to help."]
+		},
+
+		{
+			"intent": "bot_identity",
+			"query": ["who are you", "what can you do for me?", "why are you here", "how can you help me", "list your service", "what can i ask you?", "why are you here for?"],
+			"response": ["Namaste, I am NRNA bot at your service. You can ask me the basics about NRNA USA"]
+		}, 
+
+		{
+			"intent": "election_information",
+			"query": ["what is the election all about?", "what election is going on at present", "tell me about the present election", "what election is going on", "election information", "provide me the election information"],
+			"response": ["To know more about the election please visit https://nrnusa.org/commission/"]
+		},
+
+		{
+			"intent": "location",
+			"query": ["where is your headquater?", "where are you situated?", "where is your office situated", "tell me about the location of your office", "location of headquater", "headquater location", "head quater location", "tell me about the location of your head quater"],
+			"response": ["The location of our office is 72-30 Broadway, 1st Floor, Jackson Heights, NY, 11372, Box#14"]
+		},
+
+		{
+			"intent": "join_annual_program",
+			"query": ["how can i join annual program", "what is the procedure to join annual program",  "join annual program", "i want to join annual program", "process of joining annual program", "can i join annual program", "how to join annual program"],
+			"response": ["I will get to you soon. Thankyou"]
+		},
+
+		{
+			"intent": "attendees_of_annual_program",
+			"query": ["who will attend annual program", "who can attend annual program"],
+			"response": ["I will get to you soon. Thankyou."]
+		}, 
+
+		{
+			"intent": "info_about_annual_program",
+			"query": ["where will be the annual program", "when will be the annual program", "when is the annual program"], 
+			"response": ["To find out more about annual program, go to this link https://nrnusa.org/annual-program/"]
+		},
+
+		{
+			"intent": "voter_list",
+			"query": ["give me the list of voters", "voters list", "who are the voters", "who can vote", "i want to know about the voters", "who are in voter list", "list of voters"],
+			"response": ["Please visit https://nrnusa.org/voters-list-2017/ to know more about our voters"]
+		},
+
+		{
+			"intent": "candidate_list",
+			"query": ["who are the candidate", "candidate list", "candidates to vote", "candidate info", "candidate information", "who are the voting candidate"], 
+			"response": ["Please visit https://nrnusa.org/candidate-list-2017/ to know more about our candidates"]
+		},
+
+		{
+			"intent": "events",
+			"query": ["about events", "event details", "tell me about the events", "what are the events", "give me event info", "event info", "events info", "events"],
+			"response": ["Please visit https://nrnusa.org/events/ to find out in details about all our events."]
+		}
+	]
+}
