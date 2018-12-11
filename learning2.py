@@ -91,7 +91,7 @@ def response(sentence, userID='123', show_details=False):
     results = classify(sentence)
     # if we have a classification then find the matching intent tag
     if results:
-        if results[0][1]>0.05:
+        if results[0][1]>0.70:
             # loop as long as there are matches to process
             while results:
                 for i in intents['intents']:
