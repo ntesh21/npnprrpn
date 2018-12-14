@@ -23,19 +23,33 @@ def index():
 @app.route('/get_message', methods=['POST'])
 def get_message():
     message = request.form['message']
+    print("ima message",message)
+
     return jsonify({'input': message})
 
 
 @app.route('/get_bot', methods=['POST'])
 def activatebot():
-    # data = request.get_json(force=True)
-    data = request.form['message']
-    # message = start_bot(data.get('message'))
-    message = start_bot(data)
-    # status = True
-    # msg = "Retrived successfully."
-
-    return jsonify({'status': status, 'body': message, 'msg':msg})
+    try:
+        data = request.get_json(force=True)
+        message = start_bot(data.get('message'))
+        print("iam message",data)
+        file=open('./log.txt','a')
+        file.write("\n"+data['message'])
+        file.close()
+        status=""
+        msg=""
+      
+        return jsonify({'status': status,'message': message, 'msg':msg})
+    except:
+        data = request.form['message']
+        message = start_bot(data)
+        status = True
+        msg = "Retrived successfully."
+        file=open('./log.txt','a')
+        file.write("\n"+data)
+        file.close()
+        return jsonify({'status': status,'body': message, 'msg':msg})
 
 
 
