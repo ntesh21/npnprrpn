@@ -1,0 +1,185 @@
+<html>
+    <head>
+         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <style type="text/css">
+            
+
+
+            #info {
+                margin-top: 15px;
+            }
+            
+        </style>
+    </head>
+   <body>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src = 'http://www.itsimplified-ms.com/posts/photos/databases.png'>
+                <h4>Chatbot Admin Log</h4>
+                {% block content %}
+                
+                {% if 'query_edit' in request.url %}
+                    <div class="alert alert-info" role="alert">
+                        <strong>Your turn!</strong> Edit your selected data line here ...
+                    </div>
+
+                    {% for eresult in eresults %}
+                        <form action = "edit" method = "POST">
+                            <div class="form-group">
+                                <label>Query:</label>
+                                 <input class="form-control" type = "text" name = "query" value='{{eresult["query"]}}'/>
+                            </div>
+                            <div class="form-group">
+                                <label>Reply:</label>
+                                <input class="form-control" type = "text" name = "reply" value='{{eresult["reply"]}}' />
+                            </div>
+                            <div class="form-group">
+                                <label>Intent:</label>
+                                <input class="form-control" type = "text" name = "intent" value='{{eresult["intent"]}}'/>
+                            </div>
+                            <div class="form-group">
+                                <input type ="hidden" name = "old_query" value='{{eresult["query"]}}' />
+                                <input type ="hidden" name = "old_reply" value='{{eresult["reply"]}}' />
+                            </div>
+                            {% endfor %}
+                            <button class="btn btn-primary" type="submit">Update Data</button>
+                        </form>
+                {% else %}
+                <div class="alert alert-info" role="alert">
+                    <strong>Your turn!</strong> Insert your new data line with this form ...
+                </div>
+                <form action = "insert" method = "POST">
+                    <div class="form-group">
+                        <label>Query</label>
+                        <input class="form-control" type = "text" name = "query" />
+                    </div>
+                    <div class="form-group">
+                        <label>Reply:</label>
+                        <input class="form-control" type = "text" name = "reply" />
+                    </div>
+                    <div class="form-group">
+                        <label>Intent:</label>
+                        <input class="form-control" type = "text" name = "intent" />
+                    </div>
+                    <button class="btn btn-primary" type="submit">Insert Data</button>
+                </form>
+            </div>
+                {% endif %}
+            {% endblock content %}
+            <div class="col-md-6">
+                <div class="d-flex justify-content-end mt-3">
+                    <div>
+                            <input id="index"  type="button" class="btn btn-primary" TYPE="button"  VALUE="Home"
+        onclick='window.location.href="{{ url_for('index')}}"'>            
+                    </div>
+                    <div>
+                        <input id="logout"  type="button" class="btn btn-danger ml-2" TYPE="button"  VALUE="Logout"
+        onclick='window.location.href="{{ url_for('logout')}}"'>
+                        
+                    </div>
+                </div>
+
+                <div  id="info" class="alert alert-warning" role="alert">
+                    <strong>Instruction!!!</strong>
+                    <li> Every query that the user ask the bot gets stored in the user_log database which are shown below</li>
+                    <li> The query that the bot is unable to answer, the intent field and the reply field are left empty</li>
+                    <li> You can edit the data from here and fill up those missing fields</li>
+                    <li> You can also insert the new data from here and also delete the unnecessary data</li>
+                    <li> After all those process you can prepare the data by clicking on the prepare data button</li>
+                    <li> Prepare data will convert the data in the database to the json format that is fed to the machine learning model</li>
+                    <li> Now to train the model just click the begin train in redirected button and wait for the process to finish </li>
+                    <li> You will be directed to the chatbot where you can test your training data</li>
+                    <li> Thank you</li>
+
+                </div>
+                
+
+                <div class="card alert alert-danger d-none" id="training-msg">
+                        Please wait your data set is being prepared.
+                </div>
+
+             
+        </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+
+
+                <input id="button-style" type="button" class="btn btn-info" VALUE="Prepare Data" data-toggle="modal" data-target="#myModal"
+                onclick='window.location.href="{{ url_for('prepare_data')}}"' style="float: right;margin-bottom: 10px;"> 
+            </div>
+
+                        <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Preparing Data</h4>
+        </div>
+        <div class="modal-body">
+          <p>Please be patient. The data for training is being prepared.</p>
+        </div>
+        <div class="modal-footer">
+         
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <strong>Check it out!</strong> Here is your data table below ...
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class = 'table table-hover'>
+                        <thead>
+                            <tr>
+                            <th>Query</th>
+                            <th>Reply</th>
+                            <th>Intent</th>
+
+                            <th>EDIT</th>
+                            <th>DELETE</th>
+                            </tr>
+                        </thead>
+                        {% for result in results %}
+                            <tr>
+                               <td>{{result["query"]}}</td>
+                               <td>{{result["reply"]}}</td>
+                               <td>{{result["intent"]}}</td>
+
+                               <td align="center"><a href = "{{ url_for('sql_editlink', efquery=result['query'], elreply=result['reply']) }}"><i class="fas fa-edit"></a></td>
+                               <td align="center"><a href = "{{ url_for('sql_datadelete', fquery=result['query'], lreply=result['reply']) }}"><i class="fas fa-trash-alt"></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#button-style').click(function(){
+            $('#training-msg').removeClass('d-none');
+            $('#button-style').addClass('disabled');
+        });
+
+    </script>
+    </body>
+</html>

@@ -101,11 +101,14 @@ def response(sentence, userID='123', show_details=False):
                             query = q
                             print(query)
                         reply = i['response']
+                        intent=i['intent']
+                        print(intent)
                         answer = reply[0]
-                        return answer
+                        intention=intent
+                        return answer,intention
             results.pop(0)
         else:
-            return "Sorry I did not understood."
+            return ("Sorry I did not understand.","confuse")
 
 # def feedback(sentence, show_details=False):
 #     print("Choose 'a' for correct and 'b' for incorrect")

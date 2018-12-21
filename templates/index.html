@@ -1,60 +1,175 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Chat Bot</title>
-	<link rel="stylesheet" href="E:\touristchatbot\nmt-chatbot\templates\btstrap.css">
-	<style type="text/css">
-		.chatBox {
-			margin: 50px;
-			height: 50px;
-			border: 1px solid black;
-			overflow: scroll;
-		}
-	</style>
-	<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-</head>
-<body class="container">
-	<div id="root">
-		<div class="chatBox">
-		<p v-for="msg in messages">
-		 {%raw%}{{msg}}{% endraw %}
-		</p>
-	</div>
-	<form method="POST" action="/get_bot" class="form-horizontal" v-on:submit.prevent="get_bot">
-			<input type= "text" v-model="message" class="form-control" />
-			<button type="submit" style="display: none">Submit</button>
-		</form>
-	</div>
+<HTML>
+<HEAD>
+	<style>
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 80px;
+    border: 3px solid #FBA442;
+    border-top: none;
+    z-index: 9;
+}
+/* Add styles to the form container */
+.form-container2 {
+    width: 300px;
+    padding: 0px 10px 10px 10px;
+    background-color: white;
+    border: 1px solid #FBA442;
+    margin-bottom: 5px;
+   
+    }
+#chatbox{
+     max-height: 270px;
+     height: 270px;
+    overflow-y: scroll;
+}
+/* Full-width textarea */
+.form-container2 textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background: rgba(0, 123, 255, 0.25);
+    resize: none;
+    min-height: 200px;
+}
+/* When the textarea gets focus, do something */
+.form-container2 textarea:focus {
+    background-color: #ddd;
+    outline: none;
+}
+/* Set a style for the submit/send button */
+.form-container2 .btn {
+    background-color: #FBA442;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+#chat-message-input { 
+    border: 1px solid #FBA442;
+    background-color: #eaeaea;
+    color: #151515;
+}
+#chat-message-input:focus{
+    background-color: #fff;
+    border-color: #FBA442;
+    outline: none;
+}
+#chat-message-submit{
+    color: #FBA442;
+    padding: 8px;
+}
+/* Add a red background color to the cancel button */
+.form-container2 .cancel {
+    background-color: red;
+}
+/* Add some hover effects to buttons */
+.form-container2 .btn:hover, .open-button:hover {
+    opacity: 1;
+}
+.incoming_msg_img{
+  display: inline-block;
+  width: 7%;
+  float: right;
+  margin-top: 3px;
+}
+.bot_msg_img {
+  display: inline-block;
+  width: 7%;
+  float: left;
+  margin-right: 4px;
+    margin-top: 4px;
+}
+.incoming_msg_img img, .bot_msg_img img{ max-width:100%;}
+/*.chat-message{
+    
+    
+}*/
+.msg-user{
+    float: right;
+    background: #d6d6d6;
+    border-radius: 10PX;
+    padding: 5PX;
+    width: 76%;
+    word-break: break-word;
+    margin: 2px;
+}
+.chat-reply{
+    background: #ffc88a;
+    width: 76%;
+    float: left;
+    border-radius: 10PX;
+    padding:5PX;
+    margin: 2px 1px 2px 0px;
+}
+.chat-popup .input-group-addon {
+    padding: unset;
+    font-size: unset;
+    line-height: unset;
+    color: unset;
+     text-align:unset; 
+     background-color:unset; 
+     border:unset; 
+     border-radius: unset; 
+}
+#bot-chat-top{
+    text-align: center;
+    padding: 10px;
+    background: #ffc88a;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+#bot-chat-top img{
+    width: 25%;
+    margin-bottom: 10px;
+}
+</style>
+</HEAD>
+<Body style="margin:0px">
+<img src="{{url_for('static', filename='images/ab.png')}}" width="100%"/>
 
-	<script type="text/javascript">
-		var app = new Vue({
-		  el: '#root',
-		  data: {
-		    messages: [],
-		    message : ''
-		  },
+ <button class="open-button" onclick="openForm()">Chat</button>
 
-		  methods : {
-		  	get_bot() {
-		  		var that = this;
-		  		this.messages.push(this.message);
-		  		axios.post('get_bot', {
-		  		    message : this.message
-		  		  })
-		  		  .then(function (response) {
-		  		  	var data = response.data;
-		  		    that.messages.push(data.message);
-		  		  })
-		  		  .catch(function (error) {
-		  		    console.log(error);
-		  		  });
-
-		  		this.message = "";
-		  	}
-		  }
-		})
-	</script>
-
-</body>
-</html>
+    
+    <button class="open-button" onclick="openForm()" style="background-color: #FBA442;color: white;border: none;
+    cursor: pointer;  position: fixed;  bottom: 5px;right: 80px;  width: 70px;height: 70px;   border-radius: 70px;    z-index: 1;">Chat</button>
+    <div class="chat-popup form-container2" id="myForm">
+        <div class="row alert alert-success" style="padding-left: 0px; padding-right: 0px;color: #eaeaea;background-color: #FBA442; border-color: #FBA442;border-radius: 0px;margin: auto -10px 10px -10px;"> 
+            <div class="col-md-9 col">
+                <h5>LAMA BOT</h5>
+            </div>
+            <div class="col-md-3 col">
+                <i class="fas fa-times pull-right" onclick="closeForm()" style="color: #eaeaea;"></i>
+            </div>
+        </div>         
+        <form method = 'POST'>           
+            <div id="chatbox">
+                <div id="chatroom">
+                    <div id="bot-chat-top"></div>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="chat-message-input" class="form-control" autocomplete="off" required>
+                <div class="input-group-addon">
+                    <button class="fas fa-arrow-circle-right" id="chat-message-submit"></button> 
+                </div>
+            </div>      
+              
+        </form>
+    </div>
+    <script>
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+        
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+    </script>
+</Body>
+</HTML>

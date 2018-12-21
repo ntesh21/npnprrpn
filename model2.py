@@ -2,7 +2,7 @@
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
-
+import importlib
 # things we need for Tensorflow
 import numpy as np
 import tflearn
@@ -91,7 +91,7 @@ net = tflearn.regression(net)
 # Define model and setup tensorboard
 model = tflearn.DNN(net, tensorboard_dir='./tflearn_logs')
 # Start training (apply gradient descent algorithm)
-model.fit(train_x, train_y, n_epoch=1000, batch_size=8, show_metric=True)
+model.fit(train_x, train_y, n_epoch=500, batch_size=8, show_metric=True)
 model.save('./model2.tflearn')
 
 def clean_up_sentence(sentence):
