@@ -49,20 +49,24 @@ def activatebot():
 
     try:
         data = request.get_json(force=True)
-        message,intent = start_bot(data.get('message'))
+        message,intent,possible_query= start_bot(data.get('message'))
         print("iam message",data.get('message'))
         populate_dataset(data.get('message'),message,intent)
-        status=""
+        tags=possible_query
         msg=""
-
-        return jsonify({'status': status,'message': message, 'msg':msg})
+        return jsonify({'status':True,'message':message, 'msg':msg})
     except:
         data = request.form['message']
-        message,intent = start_bot(data)
+        print(data)
+        message, intent,possible_query = start_bot(data)
         status = True
+        tags=possible_query
         msg = "Retrived successfully."
-        populate_dataset(data,message,intent)
-        return jsonify({'status': status,'body': message, 'msg':msg})
+        print(msg)
+        print(data,message,intent)
+        populate_dataset(data, message, intent)
+        return jsonify({'status': status, 'body': message, 'msg': msg,'tags':tags})
+
 
 @app.route('/train_board', methods = ['POST', 'GET'])
 def sql_database():
@@ -159,11 +163,17 @@ def train_model():
 
     
 def start_bot(message):
-    reply,intent=response(message)
-    return reply,intent
+
+    reply,intent,possible_query=response(message)
+    print("iam the possible query",possible_query)
+    return reply, intent, possible_query
+
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
     app.run(host='0.0.0.0', port=5000, debug=True)
-	#train_dialogue()
-	#run_weather_bot()
+    #train_dialogue()
+    #run_weather_bot()e

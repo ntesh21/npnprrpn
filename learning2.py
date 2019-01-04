@@ -10,8 +10,9 @@ import random
 
 # restore all of our data structures
 import pickle
-
-
+from graph import generate_possible_query
+import sqlite3
+from sqlite3 import Error
 
 data = pickle.load( open( "training_data2", "rb" ) )
 
@@ -23,7 +24,7 @@ train_y = data['train_y']
 # import our chat-bot intents file
 import json
 with open('nrn.json') as json_data:
-	intents = json.load(json_data)
+    intents = json.load(json_data)
 
 # Build neural network
 net = tflearn.input_data(shape=[None, len(train_x[0])])
@@ -85,10 +86,29 @@ def classify(sentence):
     return return_list
 
 welcome_msg = "Welcome to Trip TnT. I am  your assistant TnT bot at your service. Ask me your queries "
+def generate_p_query(tags):
+
+    possible_query=generate_tags(tags)
+    return possible_query
+
+
+    # for tag in tags:
+    #     print("iam tag",tag)
+    #     for i in intents['intents']:
+    #
+    #         if i['intent']==tag:
+    #             print(i['intent'])
+    #             print(i['query'][0])
+    #             possible_query.append(i['query'][0])
+    #         else:
+    #             continue
+
 
 def response(sentence, userID='123', show_details=False):
     
     results = classify(sentence)
+    print(results[0][0])
+    possible_query=generate_possible_query(results[0][0])
     # if we have a classification then find the matching intent tag
     if results:
         if results[0][1]>0.70:
@@ -105,10 +125,12 @@ def response(sentence, userID='123', show_details=False):
                         print(intent)
                         answer = reply[0]
                         intention=intent
-                        return answer,intention
+                        print(" iam the possible query")
+                        return answer,intention,possible_query
             results.pop(0)
         else:
-            return ("Sorry I did not understand.","confuse")
+            return ("Sorry I did not understand.","confuse",["what can you do for me?","About NRN"])
+
 
 # def feedback(sentence, show_details=False):
 #     print("Choose 'a' for correct and 'b' for incorrect")
